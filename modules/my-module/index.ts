@@ -1,10 +1,14 @@
-import { NativeModulesProxy, EventEmitter, Subscription } from 'expo-modules-core';
+import {
+  NativeModulesProxy,
+  EventEmitter,
+  Subscription,
+} from "expo-modules-core";
 
 // Import the native module. On web, it will be resolved to MyModule.web.ts
 // and on native platforms to MyModule.ts
-import MyModule from './src/MyModule';
-import MyModuleView from './src/MyModuleView';
-import { ChangeEventPayload, MyModuleViewProps } from './src/MyModule.types';
+import MyModule from "./src/MyModule";
+import MyModuleView from "./src/MyModuleView";
+import { ChangeEventPayload, MyModuleViewProps } from "./src/MyModule.types";
 
 // Get the native constant value.
 export const PI = MyModule.PI;
@@ -17,10 +21,20 @@ export async function setValueAsync(value: string) {
   return await MyModule.setValueAsync(value);
 }
 
+export function vibrate(): void {
+  return MyModule.vibrate();
+}
+
+export function openLink(link: string): void {
+  return MyModule.openLink(link);
+}
+
 const emitter = new EventEmitter(MyModule ?? NativeModulesProxy.MyModule);
 
-export function addChangeListener(listener: (event: ChangeEventPayload) => void): Subscription {
-  return emitter.addListener<ChangeEventPayload>('onChange', listener);
+export function addChangeListener(
+  listener: (event: ChangeEventPayload) => void
+): Subscription {
+  return emitter.addListener<ChangeEventPayload>("onChange", listener);
 }
 
 export { MyModuleView, MyModuleViewProps, ChangeEventPayload };
